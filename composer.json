@@ -1,0 +1,71 @@
+{
+    "name": "toumoro/tm-qa-tools",
+    "type": "typo3-cms-extension",
+    "description": "Ships a list of tools that runs and manages automated functional and acceptance tests from the backend or CLI.",
+    "keywords": [
+        "TYPO3",
+        "Toumoro",
+        "Migration",
+        "QA Automation"
+    ],
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/toumoro/tm_qa_tools",
+    "authors": [
+        {
+            "name": "Simon Ouellet",
+            "email": "simon.ouellet@toumoro.com"
+        },
+        {
+            "name": "Mehdi Guermazi",
+            "email": "mehdi.guermazi@toumoro.com"
+        },
+        {
+            "name": "Michel Schmit",
+            "email": "michel.schmit@toumoro.com"
+        },
+        {
+            "name": "Haythem Daoud",
+            "email": "haythem.daoud@toumoro.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "typo3/cms-core": "^12.4.0 || ^13.4.0",
+        "typo3/coding-standards": "^0.8.0",
+        "typo3/testing-framework": "^9.2",
+        "php-parallel-lint/php-console-highlighter": "^1.0.0",
+        "php-parallel-lint/php-parallel-lint": "^1.4.0",
+        "helmich/typo3-typoscript-lint": "^3.3",
+        "sclable/xml-lint": "^0.9.0",
+        "j13k/yaml-lint": "^1.1.6"
+    },
+    "autoload":{
+        "psr-4": {
+            "Toumoro\\TmQaTools\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Toumoro\\TmQaTools\\Tests\\": "Tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        },
+        "bin-dir": ".Build/bin",
+        "sort-packages": true,
+        "vendor-dir": ".Build/vendor"
+    },
+    "replace": {
+        "typo3-ter/tm-qa-tools": "self.version"
+    },
+    "extra": {
+        "typo3/cms": {
+            "app-dir": ".Build",
+            "extension-key": "tm_qa_tools",
+            "web-dir": ".Build/Web"
+        }
+    }
+}

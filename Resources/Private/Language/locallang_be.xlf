@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:tm_qa_tools/Resources/Private/Language/locallang_be.xlf" date="2025-07-14T20:22:33Z" product-name="tm_qa_tools">
+		<header/>
+		<body>
+			<trans-unit id="fixturesPath" approved="yes">
+				<source>Chemin personnalisé des fixtures</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

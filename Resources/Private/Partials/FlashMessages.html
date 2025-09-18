@@ -1,0 +1,7 @@
+<f:flashMessages as="messages">
+    <f:for each="{messages}" as="message">
+        <div class="alert alert-{f:if(condition: '{message.severity.value} == 0', then: 'success', else: 'warning')}">
+            {message.message -> f:format.nl2br()}
+        </div>
+    </f:for>
+</f:flashMessages>
