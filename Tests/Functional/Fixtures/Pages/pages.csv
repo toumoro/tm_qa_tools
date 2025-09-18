@@ -1,0 +1,5 @@
+"uid","pid","tstamp","crdate","doktype","title","slug","shortcut"
+123,123,"1752664599","1752664599",1,"Titre de page de type Standard","/path/to/something",0
+125,125,"1752664599","1752664599",4,"Titre de page de type Raccourcis","/path/to/something",1
+127,127,"1752664599","1752664599",254,"Titre de page de type Dossier","/path/to/something",0
+129,129,"1752664599","1752664599",3,"Titre de page de type Lien","/path/to/something",0

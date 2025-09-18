@@ -1,0 +1,12 @@
+parameters:
+  level: 9
+  phpVersion: 80200
+  treatPhpDocTypesAsCertain: false
+  reportUnmatchedIgnoredErrors: false
+
+  ignoreErrors:
+    - message: '#Variable \$_EXTKEY might not be defined#'
+      path: '*/ext_emconf.php'
+
+  paths:
+    - ../../packages
