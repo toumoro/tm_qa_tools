@@ -12,11 +12,11 @@ use Symfony\Component\Process\Process;
 
 #[AsCommand(
     name: 'tmqatools:run',
-    description: 'A command that runs all QA checks.'
+    description: 'A command that runs all functional tests.'
 )]
 class RunTestsCommand extends Command
 {
-    private const COMMAND = './Build/Scripts/runTests.sh run:all';
+    private const COMMAND = './Build/Scripts/runTests.sh functional:all';
 
     /**
      * Defines the allowed options for this command
@@ -42,7 +42,7 @@ class RunTestsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Executing All QA Checks');
+        $io->title('Executing script in progress');
 
         $command = $input->getArgument('execCmd');
 
@@ -52,11 +52,11 @@ class RunTestsCommand extends Command
         });
 
         if (!$process->isSuccessful()) {
-            $io->error('QA script failed.');
+            $io->error('Script failed.');
             return Command::FAILURE;
         }
 
-        $io->success('QA script completed successfully.');
+        $io->success('Script completed successfully.');
         return Command::SUCCESS;
     }
 }
