@@ -17,4 +17,5 @@ $moduleConfiguration['qa_tools'] = [
     ],
 ];
 
-return $moduleConfiguration;
+// This functionality will be added as a future later
+// return $moduleConfiguration;
