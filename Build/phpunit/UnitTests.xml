@@ -17,12 +17,12 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory>vendor/toumoro/tm-qa-tools/Tests/Unit/</directory>
+            <directory suffix=".php">../../packages/**/Tests/</directory>
         </testsuite>
     </testsuites>
     <source>
 		<include>
-            <directory>/var/www/vendor/toumoro/tm-qa-tools/Classes/</directory>
+            <directory suffix=".php">../../packages/**/Tests/</directory>
         </include>
     </source>
 </phpunit>
