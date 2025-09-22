@@ -5,15 +5,15 @@ functional:all() {
 }
 
 functional:single() {
-	local file
-	file=$(find /var/www/vendor/toumoro/tm-qa-tools/Tests/Functional/ -name "$1.php" | head -n 1)
+    local file
+    file=$(find packages/ -path "*/Tests/Functional/$1.php" | head -n 1)
 
-	if [ -z "$file" ]; then
-		echo "❌ Test file \"$1\" not found."
-		exit 1
-	fi
+    if [ -z "$file" ]; then
+        echo "❌ Test file \"$1\" not found."
+        exit 1
+    fi
 
-	/var/www/vendor/bin/phpunit -c ./Build/phpunit/FunctionalTests.xml "$file"
+    /var/www/vendor/bin/phpunit -c ./Build/phpunit/FunctionalTests.xml "$file"
 }
 
 "$@"

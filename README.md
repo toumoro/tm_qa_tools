@@ -54,9 +54,7 @@ Ensuite, ajoutez ces scripts dans le fichier `composer.json` de votre projet :
     "ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml",
     "fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php",
     "fix:php:rector": [
-        "composer require --dev rector/rector",
-        "rector process --clear-cache",
-        "composer remove --dev rector/rector"
+        "rector process --clear-cache"
     ]
 }
 ```
@@ -65,6 +63,7 @@ Puis mettez à jour le fichier `.gitignore` :
 
 ```txt
 .php-cs-fixer.cache
+/Build/phpunit/.phpunit.result.cache
 ```
 
 ---
@@ -200,9 +199,7 @@ Then add these scripts to your project's `composer.json` file:
     "ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml",
     "fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php",
     "fix:php:rector": [
-        "composer require --dev rector/rector",
-        "rector process --clear-cache",
-        "composer remove --dev rector/rector"
+        "rector process --clear-cache"
     ]
 }
 ```
@@ -212,8 +209,8 @@ Then update `.gitignore` file:
 ```txt
 # ....
 
-/.Build/
 .php-cs-fixer.cache
+/Build/phpunit/.phpunit.result.cache
 ```
 ---
 
