@@ -47,6 +47,8 @@ export async function createRecord({
 
   await record.click();
 
+  await waitForSiteIdle(page);
+
   let lastInput;
 
   for (const { id, value } of moduleFields.filter(

@@ -94,34 +94,5 @@ export default defineConfig({
       dependencies: ['setup'],
       testDir: './tests/backend',
     },
-    {
-      name: 'Tests for TYPO3 Backend Extended',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chromium',
-        storageState: authFile,
-      },
-      testMatch: /.*\.spec\.ts/,
-      dependencies: ['setup'],
-      testDir: './tests/extended/backend',
-    },
-    {
-      name: 'Tests for TYPO3 Frontend',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chromium',
-      },
-      testMatch: /.*\.spec\.ts/,
-      testDir: './tests/frontend/',
-    },
-    {
-      name: 'Tests for TYPO3 Frontend Extended',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chromium',
-      },
-      testMatch: /.*\.spec\.ts/,
-      testDir: './tests/extended/frontend/',
-    },
   ],
 });

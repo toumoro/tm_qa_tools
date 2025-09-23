@@ -34,7 +34,7 @@ export async function confirmModal(page: Page): Promise<void> {
 export async function confirmWithAdminPassword(page: Page): Promise<void> {
   try {
     console.log('Confirming with admin password...');
-    const passwordInput = page.locator('.form-control');
+    const passwordInput = page.locator('[type="password"]');
     await passwordInput.waitFor({ state: 'visible', timeout: 3000 });
     await passwordInput.fill(adminPassword);
     await passwordInput.press('Enter');

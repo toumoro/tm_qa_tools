@@ -10,7 +10,11 @@
     "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
   },
-  "include": ["tests", "project.config.ts", "typo3.config.ts"]
+  "include": [
+    "tests", 
+    "project.config.ts", 
+    "typo3.config.ts"
+  ]
 }

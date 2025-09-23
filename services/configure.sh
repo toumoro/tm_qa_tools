@@ -6,9 +6,9 @@ QA_TOOLS_DIR="vendor/toumoro/tm-qa-tools"
 DEST_DIR="."
 
 # Copy the Build directory if it doesn't exist
-if [ ! -d "${DEST_DIR}/Build" ]; then
+if [ ! -d "${DEST_DIR}/build" ]; then
     echo "Copying Build folder..."
-    cp -r "${QA_TOOLS_DIR}/Build" "${DEST_DIR}/Build"
+    cp -r "${QA_TOOLS_DIR}/build" "${DEST_DIR}/build"
 else
     echo "Build folder already exists, skipping..."
 fi

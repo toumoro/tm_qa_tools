@@ -144,7 +144,9 @@ export const runFEUserTests = () => {
       .locator('option:not([disabled])')
       .first()
       .click();
-    await frame.locator('.form-multigroup-item .t3js-btn-removeoption').click();
+    await frame.locator('.form-multigroup-item .t3js-btn-removeoption')
+      .first()
+      .click();
 
     await expect(selectedItemsContainer.locator('option')).toHaveCount(0);
   });
