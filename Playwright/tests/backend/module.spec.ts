@@ -1,7 +1,8 @@
-import { test, expect, FrameLocator } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { navigateTo } from '../helpers/navigate';
 import { config } from '../../project.config';
 import { waitForSiteIdle } from './helpers/loading';
+import { confirmWithAdminPassword } from './helpers/user-management';
 
 const {
   typo3: { routes, modules },
@@ -26,6 +27,10 @@ test("check visibility of the backend modules", async ({ page }) => {
     await expect.soft(module).toBeVisible();
 
     await module.click();
+
+    await waitForSiteIdle(page);
+
+    await confirmWithAdminPassword(page);
 
     await waitForSiteIdle(page);
 

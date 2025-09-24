@@ -33,7 +33,6 @@ import { getEnvVariable } from '../helpers/getEnvVariable';
 
 const username = getEnvVariable('TM_PLAYWRIGHT_BE_LOGIN_USERNAME');
 const password = getEnvVariable('TM_PLAYWRIGHT_BE_LOGIN_PASSWORD');
-const oldSiteURL = getEnvVariable('TM_PLAYWRIGHT_OLD_DOMAIN');
 
 const {
   typo3: { routes, pages, records, contents },
@@ -200,7 +199,7 @@ if (typo3OldVersion >= 12) {
           username: username,
           password: password,
           authFile: tempAuthFile,
-          url: oldSiteURL,
+          url: oldSiteDomain,
         });
 
         await page.goto(`${oldSiteDomain}${routes.pages}`);
