@@ -12,16 +12,12 @@ if [ ! -d "${DEST_DIR}/.githooks" ]; then
 fi
 
 # Copy .editorconfig File
-if [ ! -d "${DEST_DIR}/.githooks" ]; then
-    cp "${QA_TOOLS_DIR}/.editorconfig" "${DEST_DIR}/.editorconfig"
-    echo ".editorconfig copied to ${DEST_DIR}/.editorconfig"
-fi
+cp "${QA_TOOLS_DIR}/.editorconfig" "${DEST_DIR}/.editorconfig"
+echo ".editorconfig copied to ${DEST_DIR}/.editorconfig"
 
 # Copy tm_qa_tools.yml.dist
 mkdir -p "${DEST_DIR}/.github/workflows"
-if [ ! -d "${DEST_DIR}/.githooks" ]; then
-    cp ${QA_TOOLS_DIR}/.github/workflows/tm_qa_tools.yml.dist "${DEST_DIR}/.github/workflows/tm_qa_tools.yml"
-    echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
-fi
+cp ${QA_TOOLS_DIR}/.github/workflows/tm_qa_tools.yml.dist "${DEST_DIR}/.github/workflows/tm_qa_tools.yml"
+echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
 
 echo "All files checked and copied if missing."
