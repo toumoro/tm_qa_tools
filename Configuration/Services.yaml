@@ -6,9 +6,3 @@ services:
 
   Toumoro\TmQaTools\:
     resource: '../Classes/*'
-  
-  Toumoro\TmQaTools\Command\RunTestsCommand:
-    tags:
-      - name: 'console.command'
-        command: 'tmqatools:run'
-        schedulable: false

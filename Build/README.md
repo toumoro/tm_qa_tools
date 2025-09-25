@@ -5,13 +5,13 @@ FR
 
 ## Vue d’ensemble des commandes
 
-Ci-dessous se trouve une collection de scripts Composer utiles pour exécuter des vérifications d’Intégration Continue (CI) et appliquer des corrections automatiques pour les fichiers PHP, TypoScript et YAML.  
+Ci-dessous se trouve une collection de scripts Composer utiles pour exécuter des vérifications d’Intégration Continue (CI) et appliquer des corrections automatiques pour les fichiers PHP, TypoScript et YAML.
 
 ---
 
 ### Exécuter toutes les vérifications CI PHP
 
-Exécute les vérifications de style de code, le linting, l’analyse statique et les tests unitaires.  
+Exécute les vérifications de style de code, le linting, l’analyse statique et les tests unitaires.
 
 ```bash
 "ci:php": [
@@ -32,10 +32,10 @@ composer ci:php
 
 ### Vérification du style de code PHP (simulation)
 
-Vérifie les problèmes de style de code sans modifier les fichiers.  
+Vérifie les problèmes de style de code sans modifier les fichiers.
 
 ```bash
-"ci:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff"
+"ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff"
 ```
 
 **Utilisation :**
@@ -48,7 +48,7 @@ composer ci:php:cs
 
 ### Linting PHP
 
-Détecte les erreurs de syntaxe dans les fichiers PHP.  
+Détecte les erreurs de syntaxe dans les fichiers PHP.
 
 ```bash
 "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages"
@@ -64,10 +64,10 @@ composer ci:php:lint
 
 ### Analyse statique avec PHPStan
 
-Exécute une analyse statique pour détecter d’éventuels problèmes.  
+Exécute une analyse statique pour détecter d’éventuels problèmes.
 
 ```bash
-"ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=Build/phpstan/phpstan.neon"
+"ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=build/phpstan/phpstan.neon"
 ```
 
 **Utilisation :**
@@ -80,7 +80,7 @@ composer ci:php:stan
 
 ### Linting TypoScript
 
-Vérifie les fichiers TypoScript pour détecter les erreurs de syntaxe.  
+Vérifie les fichiers TypoScript pour détecter les erreurs de syntaxe.
 
 ```bash
 "ci:lint:typoscript": "typoscript-lint ./packages --ansi -n --fail-on-warnings"
@@ -89,7 +89,7 @@ Vérifie les fichiers TypoScript pour détecter les erreurs de syntaxe.
 **Avec un fichier de configuration personnalisé :**
 
 ```bash
-"ci:lint:typoscript": "typoscript-lint -c Build/linting/typoscript-lint.yml --ansi -n --fail-on-warnings"
+"ci:lint:typoscript": "typoscript-lint -c build/linting/typoscript-lint.yml --ansi -n --fail-on-warnings"
 ```
 
 **Utilisation :**
@@ -102,7 +102,7 @@ composer ci:lint:typoscript
 
 ### Linting YAML
 
-Vérifie les fichiers YAML pour détecter les erreurs de syntaxe.  
+Vérifie les fichiers YAML pour détecter les erreurs de syntaxe.
 
 ```bash
 "ci:lint:yaml": "yaml-lint packages/**/Configuration/*.yaml",
@@ -118,7 +118,7 @@ composer ci:lint:yaml
 
 ### Linting XML
 
-Vérifie les fichiers XML pour détecter les erreurs de syntaxe.  
+Vérifie les fichiers XML pour détecter les erreurs de syntaxe.
 
 ```bash
 "ci:lint:xml": "xmllint packages --pattern '*.xlf,*.svg' --ansi",
@@ -134,10 +134,10 @@ composer ci:lint:xml
 
 ### Tests PHPUnit
 
-Exécute les tests unitaires.  
+Exécute les tests unitaires.
 
 ```bash
-"ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml"
+"ci:php:unit": "phpunit -c ./build/phpunit/UnitTests.xml"
 ```
 
 **Utilisation :**
@@ -154,7 +154,7 @@ composer ci:php:unit
 
 ### Exécuter toutes les corrections PHP
 
-Corrige automatiquement le style de code et refactorise le code PHP.  
+Corrige automatiquement le style de code et refactorise le code PHP.
 
 ```bash
 "fix:php": [
@@ -173,10 +173,10 @@ composer fix:php
 
 ### Corriger le style de code PHP
 
-Applique automatiquement les standards de codage.  
+Applique automatiquement les standards de codage.
 
 ```bash
-"fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php"
+"fix:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php"
 ```
 
 **Utilisation :**
@@ -239,7 +239,7 @@ composer ci:php
 Checks for code style issues without modifying files.
 
 ```bash
-"ci:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff"
+"ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff"
 ```
 
 **Usage:**
@@ -271,7 +271,7 @@ composer ci:php:lint
 Runs static analysis to detect potential issues.
 
 ```bash
-"ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=Build/phpstan/phpstan.neon"
+"ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=build/phpstan/phpstan.neon"
 ```
 
 **Usage:**
@@ -293,7 +293,7 @@ Checks TypoScript files for syntax issues.
 **With a custom config file:**
 
 ```bash
-"ci:lint:typoscript": "typoscript-lint -c Build/linting/typoscript-lint.yml --ansi -n --fail-on-warnings"
+"ci:lint:typoscript": "typoscript-lint -c build/linting/typoscript-lint.yml --ansi -n --fail-on-warnings"
 ```
 
 **Usage:**
@@ -341,7 +341,7 @@ composer ci:lint:xml
 Runs unit tests.
 
 ```bash
-"ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml"
+"ci:php:unit": "phpunit -c ./build/phpunit/UnitTests.xml"
 ```
 
 **Usage:**
@@ -378,7 +378,7 @@ composer fix:php
 Applies coding standards automatically.
 
 ```bash
-"fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php"
+"fix:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php"
 ```
 
 **Usage:**
