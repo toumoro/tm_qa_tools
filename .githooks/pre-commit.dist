@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Pre-commit Git hook
+
+set -e
+
+docker_exe_web(){
+    docker-compose exec -T -u www-data -w /var/www web "$@"
+}
+
+docker_exe_web composer ci:php

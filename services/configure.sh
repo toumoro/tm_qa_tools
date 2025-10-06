@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 QA_TOOLS_DIR="vendor/toumoro/tm-qa-tools"
@@ -6,7 +7,7 @@ DEST_DIR="."
 
 # Copy Build Folder
 mkdir -p "${DEST_DIR}/build"
-if [ ! -d "${DEST_DIR}/.githooks" ]; then
+if [ ! -d "${DEST_DIR}/build" ]; then
     cp -r "${QA_TOOLS_DIR}/Build" "${DEST_DIR}/build"
     echo "Build folder copied to ${DEST_DIR}/build/"
 fi
@@ -19,5 +20,10 @@ echo ".editorconfig copied to ${DEST_DIR}/.editorconfig"
 mkdir -p "${DEST_DIR}/.github/workflows"
 cp ${QA_TOOLS_DIR}/.github/workflows/tm_qa_tools.yml.dist "${DEST_DIR}/.github/workflows/tm_qa_tools.yml"
 echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
+
+# Copy pre-commit.dist
+mkdir -p "${DEST_DIR}/.githooks"
+cp ${QA_TOOLS_DIR}/.githooks/pre-commit.dist "${DEST_DIR}/.githooks/pre-commit"
+echo "Pre-commit script copied to ${DEST_DIR}/.githooks/"
 
 echo "All files checked and copied if missing."

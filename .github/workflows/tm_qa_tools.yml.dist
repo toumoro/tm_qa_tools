@@ -2,8 +2,6 @@ name: tm_qa_tools
 
 on:
   push:
-    branches:
-      - migration
     paths-ignore:
       - '.ddev/**'
       - '.github/ISSUE_TEMPLATE/*'
@@ -11,8 +9,6 @@ on:
       - '**.md'
       - '**.rst'
   pull_request:
-    branches:
-      - migration
     paths-ignore:
       - '.ddev/**'
       - '.github/ISSUE_TEMPLATE/*'
@@ -20,18 +16,13 @@ on:
       - '**.md'
       - '**.rst'
 
-env:
-  COMPOSER_FLAGS: --ansi --no-interaction --no-progress
-  COMPOSER_INSTALL_FLAGS: --prefer-dist
-  COMPOSER_UPDATE_FLAGS: ''
-
 jobs:
   codecheck:
     name: Composer validation
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: .
 
     steps:
       - name: Checkout
@@ -63,7 +54,11 @@ jobs:
             ${{ runner.os }}-composer-cache-vars
 
       - name: Install dependencies
-        run: composer update ${{ env.COMPOSER_UPDATE_FLAGS }} ${{ env.COMPOSER_INSTALL_FLAGS }} ${{ env.COMPOSER_FLAGS }}
+        run: composer install --prefer-dist --ansi --no-interaction --no-progress
 
       - name: ci:php
         run: composer ci:php
+
+      - name: functional tests
+        run: |
+          ./build/scripts/runTests.sh -p 8.3 -d mysql
