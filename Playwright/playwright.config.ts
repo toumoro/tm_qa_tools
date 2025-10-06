@@ -16,7 +16,7 @@ const {
 
 // Use prepared auth state.
 const mode = process.env.TM_PLAYWRIGHT_MODE === 'true';
-const domain = process.env.TM_PLAYWRIGHT_DOMAIN;
+const domain = process.env.TM_BASE_DOMAIN;
 
 /**
  * @see https://playwright.dev/docs/test-configuration
