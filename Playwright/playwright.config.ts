@@ -89,6 +89,9 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         channel: 'chromium',
         storageState: authFile,
+        contextOptions: {
+          ignoreHTTPSErrors: true
+        },
       },
       testMatch: /.*\.spec\.ts/,
       dependencies: ['setup'],
