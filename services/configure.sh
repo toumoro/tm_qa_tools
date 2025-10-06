@@ -16,9 +16,9 @@ fi
 cp "${QA_TOOLS_DIR}/.editorconfig" "${DEST_DIR}/.editorconfig"
 echo ".editorconfig copied to ${DEST_DIR}/.editorconfig"
 
-# Copy tm_qa_tools.yml.dist
+# Copy tm-qa-tools.yml.dist
 mkdir -p "${DEST_DIR}/.github/workflows"
-cp ${QA_TOOLS_DIR}/.github/workflows/tm_qa_tools.yml.dist "${DEST_DIR}/.github/workflows/tm_qa_tools.yml"
+cp ${QA_TOOLS_DIR}/.github/workflows/tm-qa-tools.yml.dist "${DEST_DIR}/.github/workflows/tm-qa-tools.yml"
 echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
 
 # Copy pre-commit.dist

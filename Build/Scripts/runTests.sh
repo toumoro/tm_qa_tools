@@ -12,15 +12,15 @@ waitFor() {
     local TESTCOMMAND="
         COUNT=0;
         while ! nc -z ${HOST} ${PORT}; do
-            if [ \"${COUNT}\" -gt 10 ]; then
+            if [ \"\${COUNT}\" -gt 20 ]; then
               echo \"Can not connect to ${HOST} port ${PORT}. Aborting.\";
               exit 1;
             fi;
             sleep 1;
-            COUNT=$((COUNT + 1));
+            COUNT=\$((COUNT + 1));
         done;
     "
-    ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name wait-for-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${IMAGE_ALPINE} ${CONTAINER_SHELL} -c "${TESTCOMMAND}"
+    ${CONTAINER_BIN} run ${CONTAINER_COMMON_PARAMS} --name wait-for-${SUFFIX} ${XDEBUG_MODE} -e XDEBUG_CONFIG="${XDEBUG_CONFIG}" ${IMAGE_ALPINE} /bin/sh -c "${TESTCOMMAND}"
     if [[ $? -gt 0 ]]; then
         kill -SIGINT -$$
     fi
