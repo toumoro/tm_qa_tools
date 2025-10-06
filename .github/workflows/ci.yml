@@ -28,5 +28,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          chmod +x ./build/Scripts/runTests.sh
-          RUNTESTS_DIR_BIN=.Build/bin/ ./build/Scripts/runTests.sh -p 8.2 -d mysql
+          chmod +x ./Build/Scripts/runTests.sh
+          RUNTESTS_DIR_BIN=.Build/bin/ ./Build/Scripts/runTests.sh -p 8.2 -d mysql
