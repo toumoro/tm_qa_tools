@@ -1,4 +1,4 @@
-name: tm_qa_tools
+name: QA tools
 
 on:
   push:
@@ -61,4 +61,4 @@ jobs:
 
       - name: functional tests
         run: |
-          ./build/scripts/runTests.sh -p 8.3 -d mysql
+          ./build/Scripts/runTests.sh -p 8.3 -d mysql
