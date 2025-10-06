@@ -1,0 +1,64 @@
+name: tm_qa_tools
+
+on:
+  push:
+    paths-ignore:
+      - '.ddev/**'
+      - '.github/ISSUE_TEMPLATE/*'
+      - '.vscode/*'
+      - '**.md'
+      - '**.rst'
+  pull_request:
+    paths-ignore:
+      - '.ddev/**'
+      - '.github/ISSUE_TEMPLATE/*'
+      - '.vscode/*'
+      - '**.md'
+      - '**.rst'
+
+jobs:
+  codecheck:
+    name: Composer validation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          extensions: intl, zip
+          ini-values: memory_limit=-1, error_reporting=E_ALL, display_errors=On
+          php-version: '8.3'
+          tools: composer
+
+      - name: Composer Cache Vars
+        id: composer-cache-vars
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +"%s")" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache-vars.outputs.dir }}
+          key: ${{ runner.os }}-composer-2-latest-${{ steps.composer-cache-vars.outputs.timestamp }}
+          restore-keys: |
+            ${{ runner.os }}-composer-2-latest-
+            ${{ runner.os }}-composer-2-
+            ${{ runner.os }}-composer-cache-vars
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --ansi --no-interaction --no-progress
+
+      - name: ci:php
+        run: composer ci:php
+
+      - name: functional tests
+        run: |
+          ./build/scripts/runTests.sh -p 8.3 -d mysql

@@ -9,10 +9,10 @@ Un ensemble d'outils permettant d'automatiser la phase d'assurance qualité et d
 
 Assurez-vous que ces variables d’environnement sont définies :
 
-- `typo3DatabaseUsername`  
-- `typo3DatabasePassword`  
-- `typo3DatabaseHost`  
-- `typo3DatabaseName`  
+- `typo3DatabaseUsername`
+- `typo3DatabasePassword`
+- `typo3DatabaseHost`
+- `typo3DatabaseName`
 
 ## Installation
 
@@ -45,14 +45,14 @@ Ensuite, ajoutez ces scripts dans le fichier `composer.json` de votre projet :
         "@fix:php:rector",
         "@fix:php:cs"
     ],
-    "ci:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
+    "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
-    "ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=Build/phpstan/phpstan.neon",
+    "ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=build/phpstan/phpstan.neon",
     "ci:lint:typoscript": "typoscript-lint ./packages --ansi -n --fail-on-warnings",
     "ci:lint:xml": "xmllint packages --pattern '*.xlf,*.svg' --ansi",
     "ci:lint:yaml": "yaml-lint packages/**/Configuration/*.yaml",
-    "ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml",
-    "fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php",
+    "ci:php:unit": "phpunit -c ./build/phpunit/UnitTests.xml",
+    "fix:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php",
     "fix:php:rector": [
         "rector process --clear-cache"
     ]
@@ -63,34 +63,8 @@ Puis mettez à jour le fichier `.gitignore` :
 
 ```txt
 .php-cs-fixer.cache
-/Build/phpunit/.phpunit.result.cache
+/build/phpunit/.phpunit.result.cache
 ```
-
----
-
-## Dépannage
-
-### Conflits de dépendances
-
-```bash
-composer update -W
-```
-
-### Erreurs de permissions sur la base de données
-
-Si vous obtenez des erreurs liées aux permissions de la base de données, exécutez la commande suivante dans votre conteneur MySQL/MariaDB :
-
-```bash
-docker exec -it <container_name> mysql -u root -p
-```
-
-Puis dans le shell MySQL :
-
-```sql
-GRANT ALL ON `dev_%`.* TO 'dev'@'%';
-FLUSH PRIVILEGES;
-```
-
 ---
 
 ## Exemple d’utilisation
@@ -116,20 +90,20 @@ composer ci:lint:typoscript
 ### Lancer tous les tests avec le script dédié
 
 ```bash
-chmod +x ./Build/Scripts/runTests.sh
+chmod +x ./build/Scripts/runTests.sh
 
 # Lancer tous les tests
-./Build/Scripts/runTests.sh functional:all
+./build/scripts/runTests.sh -p 8.2
 
 # Lancer un test spécifique
-./Build/Scripts/runTests.sh functional:single PageActionsTest
+./build/scripts/runTests.sh -p 8.2 -- --filter PageActionsTest
 ```
 
 ---
 
 ## Tests UI avec Playwright
 
-Les tests Playwright sont disponibles sous le domaine :  
+Les tests Playwright sont disponibles sous le domaine :
 `playwright-${YOUR_DOMAIN}`
 
 ---
@@ -138,8 +112,8 @@ Les tests Playwright sont disponibles sous le domaine :
 
 Pour les tests fonctionnels, vous pouvez ajouter un chemin personnalisé vers un fichier de fixtures et le configurer via l’option d’extension `fixturesPath`.
 
-Pour les tests Playwright, vous pouvez ajouter vos tests personnalisés dans une extension existante ou dans une nouvelle.  
-Il est essentiel d’ajouter le chemin du dossier de tests à votre fichier `docker-compose-cloud.yml` afin de garantir leur bonne exécution.  
+Pour les tests Playwright, vous pouvez ajouter vos tests personnalisés dans une extension existante ou dans une nouvelle.
+Il est essentiel d’ajouter le chemin du dossier de tests à votre fichier `docker-compose-cloud.yml` afin de garantir leur bonne exécution.
 
 ---
 
@@ -190,14 +164,14 @@ Then add these scripts to your project's `composer.json` file:
         "@fix:php:rector",
         "@fix:php:cs"
     ],
-    "ci:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
+    "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
-    "ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=Build/phpstan/phpstan.neon",
+    "ci:php:stan": "phpstan analyse --ansi --no-progress --configuration=build/phpstan/phpstan.neon",
     "ci:lint:typoscript": "typoscript-lint ./packages --ansi -n --fail-on-warnings",
     "ci:lint:xml": "xmllint packages --pattern '*.xlf,*.svg' --ansi",
     "ci:lint:yaml": "yaml-lint packages/**/Configuration/*.yaml",
-    "ci:php:unit": "phpunit -c ./Build/phpunit/UnitTests.xml",
-    "fix:php:cs": "php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php",
+    "ci:php:unit": "phpunit -c ./build/phpunit/UnitTests.xml",
+    "fix:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php",
     "fix:php:rector": [
         "rector process --clear-cache"
     ]
@@ -210,34 +184,9 @@ Then update `.gitignore` file:
 # ....
 
 .php-cs-fixer.cache
-/Build/phpunit/.phpunit.result.cache
+/build/phpunit/.phpunit.result.cache
 ```
 ---
-
-## Troubleshooting
-
-### Dependency conflicts:
-
-```bash
-composer update -W
-```
-
-### Database permission errors
-
-If you get database permission errors, run the following inside your MySQL/MariaDB container:
-
-```bash
-docker exec -it <container_name> mysql -u root -p
-```
-
-Then in the MySQL shell:
-
-```sql
-GRANT ALL ON `dev_%`.* TO 'dev'@'%';
-FLUSH PRIVILEGES;
-```
-
---------------------------------------------------------------------------------
 
 ## Example Usage
 
@@ -262,13 +211,13 @@ composer ci:lint:typoscript
 Run all tests using the command:
 
 ```bash
-chmod +x ./Build/Scripts/runTests.sh
+chmod +x ./build/Scripts/runTests.sh
 
 # Run all
-./Build/Scripts/runTests.sh functional:all
+./build/scripts/runTests.sh -p 8.2 -d mysql
 
 # Run a specific test
-./Build/Scripts/runTests.sh functional:single PageActionsTest
+./build/scripts/runTests.sh -p 8.2 -d mysql -- --filter PageActionsTest
 ```
 
 --------------------------------------------------------------------------------
@@ -283,5 +232,5 @@ Playwright tests are available under `playwright-${YOUR_DOMAIN}`.
 
 For functional tests, you can add a custom fixtures file path and then configure it under the extension configuration setting `fixturesPath`.
 
-For Playwright tests, you can add your custom tests in an existing extension or in a new one. 
+For Playwright tests, you can add your custom tests in an existing extension or in a new one.
 It's essential to add the tests folder path to your `docker-compose-cloud.yml` file to ensure they are properly executed.

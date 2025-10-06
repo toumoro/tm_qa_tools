@@ -1,32 +1,29 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-# Define source and destination paths
 QA_TOOLS_DIR="vendor/toumoro/tm-qa-tools"
 DEST_DIR="."
 
-# Copy the Build directory if it doesn't exist
+# Copy Build Folder
+mkdir -p "${DEST_DIR}/build"
 if [ ! -d "${DEST_DIR}/build" ]; then
-    echo "Copying Build folder..."
-    cp -r "${QA_TOOLS_DIR}/build" "${DEST_DIR}/build"
-else
-    echo "Build folder already exists, skipping..."
+    cp -r "${QA_TOOLS_DIR}/Build" "${DEST_DIR}/build"
+    echo "Build folder copied to ${DEST_DIR}/build/"
 fi
 
-# Copy .githooks directory if it doesn't exist
-if [ ! -d "${DEST_DIR}/.githooks" ]; then
-    echo "Copying .githooks folder..."
-    cp -r "${QA_TOOLS_DIR}/.githooks" "${DEST_DIR}/.githooks"
-else
-    echo ".githooks folder already exists, skipping..."
-fi
+# Copy .editorconfig File
+cp "${QA_TOOLS_DIR}/.editorconfig" "${DEST_DIR}/.editorconfig"
+echo ".editorconfig copied to ${DEST_DIR}/.editorconfig"
 
-# Copy .editorconfig file if it doesn't exist
-if [ ! -f "${DEST_DIR}/.editorconfig" ]; then
-    echo "Copying .editorconfig file..."
-    cp "${QA_TOOLS_DIR}/Build/.editorconfig" "${DEST_DIR}/.editorconfig"
-else
-    echo ".editorconfig file already exists, skipping..."
-fi
+# Copy tm_qa_tools.yml.dist
+mkdir -p "${DEST_DIR}/.github/workflows"
+cp ${QA_TOOLS_DIR}/.github/workflows/tm_qa_tools.yml.dist "${DEST_DIR}/.github/workflows/tm_qa_tools.yml"
+echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
+
+# Copy pre-commit.dist
+mkdir -p "${DEST_DIR}/.githooks"
+cp ${QA_TOOLS_DIR}/.githooks/pre-commit.dist "${DEST_DIR}/.githooks/pre-commit"
+echo "Pre-commit script copied to ${DEST_DIR}/.githooks/"
 
 echo "All files checked and copied if missing."

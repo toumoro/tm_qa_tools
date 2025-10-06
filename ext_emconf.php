@@ -8,7 +8,6 @@ $EM_CONF['tm_qa_tools'] = [
     'author_email' => 'haythemdaoud.x@gmail.com',
     'state' => 'beta',
     'uploadFolder' => false,
-    'clearCacheOnLoad' => true,
     'version' => '13.0.0',
     'constraints' => [
         'depends' => [
