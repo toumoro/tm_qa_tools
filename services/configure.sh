@@ -6,9 +6,9 @@ QA_TOOLS_DIR="vendor/toumoro/tm-qa-tools"
 DEST_DIR="."
 
 # Copy Build Folder
-mkdir -p "${DEST_DIR}/build"
 if [ ! -d "${DEST_DIR}/build" ]; then
-    cp -r "${QA_TOOLS_DIR}/Build" "${DEST_DIR}/build"
+    mkdir -p "${DEST_DIR}/build"
+    cp -a "${QA_TOOLS_DIR}/Build/." "${DEST_DIR}/build"
     echo "Build folder copied to ${DEST_DIR}/build/"
 fi
 
