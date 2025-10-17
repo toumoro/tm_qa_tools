@@ -61,4 +61,5 @@ jobs:
 
       - name: functional tests
         run: |
+          chmod +x ./build/Scripts/runTests.sh
           ./build/Scripts/runTests.sh -p 8.3 -d mysql
