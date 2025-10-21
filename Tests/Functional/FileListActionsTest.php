@@ -59,7 +59,7 @@ class FileListActionsTest extends BaseFunctionalTestCase
         file_put_contents($absolutePath, 'Contenu édité');
         $file->setContents(file_get_contents($absolutePath));
 
-        $this->assertStringContainsString('Contenu édité', $file->getContents());
+        self::assertStringContainsString('Contenu édité', $file->getContents());
     }
 
     #[Test]
@@ -101,7 +101,7 @@ class FileListActionsTest extends BaseFunctionalTestCase
         $file = $this->resourceFactory->getFileObjectByStorageAndIdentifier($storageUid, $fileIdentifier);
         $meta = $file->getMetaData();
 
-        $this->assertEquals('Titre du fichier', $meta['title']);
+        self::assertEquals('Titre du fichier', $meta['title']);
     }
 
     /**

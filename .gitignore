@@ -4,3 +4,5 @@
 /public/
 /vendor/
 /Build/phpunit/.phpunit.result.cache
+# Cache Files
+.php-cs-fixer.cache

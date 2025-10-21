@@ -18,10 +18,10 @@ class ContentActionsTest extends BaseFunctionalTestCase
     {
         parent::setUp();
 
-       $this->databaseUtility = $this->getMockBuilder(DatabaseUtility::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['insertRecord', 'getRecord', 'updateRecord', 'deleteRecord'])
-            ->getMock();
+        $this->databaseUtility = $this->getMockBuilder(DatabaseUtility::class)
+             ->disableOriginalConstructor()
+             ->onlyMethods(['insertRecord', 'getRecord', 'updateRecord', 'deleteRecord'])
+             ->getMock();
 
         try {
             /** @var ConfigurationUtility $configurationUtility */
@@ -50,7 +50,7 @@ class ContentActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData();
 
-        $this->assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -58,14 +58,14 @@ class ContentActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData();
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
     }
 
     #[Test]
     public function canDeleteAContentElement(): void
     {
         $fields = $this->getFieldsData();
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 }

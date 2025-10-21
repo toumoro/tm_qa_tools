@@ -54,7 +54,7 @@ class RedirectActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData();
 
-        $this->assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -62,14 +62,14 @@ class RedirectActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData();
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
     }
 
     #[Test]
     public function canDeleteARedirectRecord(): void
     {
         $fields = $this->getFieldsData();
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 }
