@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Frame, Locator, Page } from '@playwright/test';
 
 /**
  *  FulFill the promise when div with '.scaffold-content-module' is visible and '.icon-spin', '.nprogress-busy'
@@ -16,24 +16,51 @@ export const waitForSiteIdle = async (page: Page) => {
     { type: 'Overlay', selector: '.ui-block' },
   ];
 
-  await page.locator('.scaffold-content-module').waitFor({ state: 'visible' });
+  // Wait for one of the promise of an array to settle + a timeout in case we dont have redirection.
+  const withTimeout = <T>(promisesList: Promise<T>[], ms: number): Promise<T[]> => {
+  const timeout = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
+  );
+
+  return Promise.race([Promise.all(promisesList), timeout]);
+};
+  // Wait for navigation or DOM stability before scanning
+  try {
+    await withTimeout([
+      page.waitForLoadState('domcontentloaded'),
+      page.waitForLoadState('load'),
+    ],2000);
+  } catch {
+    //
+  }
+
+  try {
+    await page.locator('.scaffold-content-module').waitFor({ state: 'visible', timeout: 5000 });
+  } catch {
+    //
+  }
 
   const loadersToWaitFor: { locator: Locator; type: string }[] = [];
 
-  // Search for all loading indicators in the main page
-  for (const { type, selector } of LOADER_SELECTORS) {
-    const locators = await page.locator(selector).all();
-    locators.forEach((locator) => loadersToWaitFor.push({ locator, type }));
-  }
-
-  // Search for loading indicators within iframes
-  for (const frame of page.frames()) {
+  const collectLocators = async (frame: Page | Frame, framePrefix = '') => {
     for (const { type, selector } of LOADER_SELECTORS) {
-      const iframeLocators = await frame.locator(selector).all();
-      iframeLocators.forEach((locator) =>
-        loadersToWaitFor.push({ locator, type: `IFrame ${type}` }),
-      );
+      try {
+        const locators = await frame.locator(selector).all();
+        locators.forEach((locator) => loadersToWaitFor.push({ locator, type: `${framePrefix}${type}` }));
+      } catch (err) {
+        if (!String(err).includes('Execution context was destroyed')) {
+          throw err
+        };
+      }
     }
+  };
+
+  // Collect from main page
+  await collectLocators(page);
+
+  // Collect from iframes
+  for (const frame of page.frames()) {
+    await collectLocators(frame, 'IFrame ');
   }
 
   if (loadersToWaitFor.length === 0) {
@@ -41,17 +68,22 @@ export const waitForSiteIdle = async (page: Page) => {
     return;
   }
 
-  console.log(
-    `  ⏳ Found ${loadersToWaitFor.length} active loading indicator(s). Waiting for them to disappear...`,
-  );
+  console.log(`  ⏳ Found ${loadersToWaitFor.length} active loader(s). Waiting...`);
 
+  // Wait for them to disappear, ignoring destroyed contexts mid-flight
   await Promise.all(
-    loadersToWaitFor.map(({ locator, type }, index) =>
-      locator.waitFor({ state: 'hidden' }).then(() => {
+    loadersToWaitFor.map(async ({ locator, type }, index) => {
+      try {
+        await locator.waitFor({ state: 'hidden', timeout: 15000 });
         console.log(`    ✅ ${type} #${index + 1} is now hidden.`);
-        return true;
-      }),
-    ),
+      } catch (err) {
+        if (String(err).includes('Execution context was destroyed')) {
+          console.log(`    ⚠️ ${type} #${index + 1} destroyed due to navigation, skipping.`);
+        } else {
+          throw err;
+        }
+      }
+    }),
   );
 
   console.log('  ✨ All loading indicators are hidden. Site is now idle.');

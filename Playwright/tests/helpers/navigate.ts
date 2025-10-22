@@ -164,6 +164,14 @@ export async function navigateToRecord({
 
   await waitForSiteIdle(page);
 
+  // Sometimes a list of records can be collapsed
+  const recordTitle = frame.locator('.recordlist-heading-title a', {
+      hasText: new RegExp(`^${moduleName} `),
+    });
+  if (recordTitle && (await recordTitle.locator('.icon-actions-view-table-expand').all()).length > 0) {
+    await recordTitle.click();
+  }
+
   console.log('will look for record ', moduleName);
   const recordListContainer = frame.locator('.recordlist').filter({
     has: frame.locator('.recordlist-heading-title', {
