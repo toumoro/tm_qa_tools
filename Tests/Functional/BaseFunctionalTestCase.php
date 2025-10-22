@@ -20,12 +20,12 @@ class BaseFunctionalTestCase extends FunctionalTestCase
      */
     protected function mockInsertAndFetchUid(string $table, array $fields): int
     {
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('insertRecord')
             ->with($table, $fields)
             ->willReturn((int)$fields['uid']);
 
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('getRecord')
             ->with($table, $fields['uid'])
             ->willReturn(['uid' => $fields['uid']]);
@@ -48,12 +48,12 @@ class BaseFunctionalTestCase extends FunctionalTestCase
      */
     protected function mockUpdateAndFetchUid(string $table, array $fields, int $newUid): bool
     {
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('getRecord')
             ->with($table, $fields['uid'])
             ->willReturn(['uid' => $fields['uid']]);
 
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('updateRecord')
             ->with($table, $fields['uid'], ['uid' => $newUid])
             ->willReturn(true);
@@ -76,12 +76,12 @@ class BaseFunctionalTestCase extends FunctionalTestCase
      */
     protected function mockDeleteAndFetchUid(string $table, array $fields): bool
     {
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('getRecord')
             ->with($table, $fields['uid'])
             ->willReturn(['uid' => $fields['uid']]);
 
-        $this->databaseUtility->expects($this->once())
+        $this->databaseUtility->expects(self::once())
             ->method('deleteRecord')
             ->with($table, $fields['uid'])
             ->willReturn(true);

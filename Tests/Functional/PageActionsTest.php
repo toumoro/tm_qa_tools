@@ -11,12 +11,9 @@ class PageActionsTest extends BaseFunctionalTestCase
 {
     private const DEFAULT_FIXTURES_PATH =  __DIR__ . '/Fixtures/Pages/pages.csv';
     private const TABLE = 'pages';
-    
+
     protected string $fixtures;
-    
-    /**
-     * @return void
-     */
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -49,7 +46,7 @@ class PageActionsTest extends BaseFunctionalTestCase
             'default' => $fields[0],
             'shortcut' => $fields[1],
             'folder' => $fields[2],
-            'link' => $fields[3]
+            'link' => $fields[3],
         ];
     }
 
@@ -58,7 +55,7 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['default'];
 
-        $this->assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(123, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -66,15 +63,15 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['default'];
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 124));
     }
 
     #[Test]
     public function canDeleteADefaultPageRecord(): void
     {
         $fields = $this->getFieldsData()['default'];
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -82,7 +79,7 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['shortcut'];
 
-        $this->assertEquals(125, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(125, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -90,15 +87,15 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['shortcut'];
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 126));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 126));
     }
 
     #[Test]
     public function canDeleteAShortcutPageRecord(): void
     {
         $fields = $this->getFieldsData()['shortcut'];
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -106,7 +103,7 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['folder'];
 
-        $this->assertEquals(127, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(127, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -114,15 +111,15 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['folder'];
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 128));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 128));
     }
 
     #[Test]
     public function canDeleteAFolderPageRecord(): void
     {
         $fields = $this->getFieldsData()['folder'];
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -130,7 +127,7 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['link'];
 
-        $this->assertEquals(129, $this->mockInsertAndFetchUid(self::TABLE, $fields));
+        self::assertEquals(129, $this->mockInsertAndFetchUid(self::TABLE, $fields));
     }
 
     #[Test]
@@ -138,14 +135,14 @@ class PageActionsTest extends BaseFunctionalTestCase
     {
         $fields = $this->getFieldsData()['link'];
 
-        $this->assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 130));
+        self::assertTrue($this->mockUpdateAndFetchUid(self::TABLE, $fields, 130));
     }
 
     #[Test]
     public function canDeleteALinkPageRecord(): void
     {
         $fields = $this->getFieldsData()['link'];
-        
-        $this->assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
+
+        self::assertTrue($this->mockDeleteAndFetchUid(self::TABLE, $fields));
     }
 }

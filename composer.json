@@ -67,5 +67,9 @@
             "extension-key": "tm_qa_tools",
             "web-dir": ".Build/Web"
         }
+    },
+    "scripts": {
+        "ci:php": "php-cs-fixer fix --config=php-cs-fixer.php -v --dry-run --using-cache no --diff",
+        "fix:php": "php-cs-fixer fix --config=php-cs-fixer.php"
     }
 }

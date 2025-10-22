@@ -37,20 +37,20 @@ class DatabaseUtility
     public function updateRecord(string $tableName, int $uid, array $data): bool
     {
         $connexion = self::getConnection($tableName);
-        $affectedRows = $connexion->update( $tableName, $data, ['uid' => $uid] );
+        $affectedRows = $connexion->update($tableName, $data, ['uid' => $uid]);
         return $affectedRows > 0;
     }
 
     /**
      * Delete Record from the database.
      *
-     * @param integer $uid
+     * @param int $uid
      * @return bool
      */
     public function deleteRecord(string $tableName, int $uid): bool
     {
         $connexion = self::getConnection($tableName);
-        $affectedRows = $connexion->delete( $tableName, ['uid' => $uid] );
+        $affectedRows = $connexion->delete($tableName, ['uid' => $uid]);
         return $affectedRows > 0;
     }
 
