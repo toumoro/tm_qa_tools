@@ -168,7 +168,7 @@ export async function navigateToRecord({
   const recordTitle = frame.locator('.recordlist-heading-title a', {
       hasText: new RegExp(`^${moduleName} `),
     });
-  if (recordTitle && (await recordTitle.locator('.icon-actions-view-table-expand').all()).length > 0) {
+  if ((await recordTitle.count()) > 0 && (await recordTitle.locator('.icon-actions-view-table-expand').count()) > 0) {
     await recordTitle.click();
   }
 

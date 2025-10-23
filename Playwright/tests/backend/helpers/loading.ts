@@ -29,7 +29,7 @@ export const waitForSiteIdle = async (page: Page) => {
     await withTimeout([
       page.waitForLoadState('domcontentloaded'),
       page.waitForLoadState('load'),
-    ],2000);
+    ], 2000);
   } catch {
     //
   }
@@ -49,7 +49,7 @@ export const waitForSiteIdle = async (page: Page) => {
         locators.forEach((locator) => loadersToWaitFor.push({ locator, type: `${framePrefix}${type}` }));
       } catch (err) {
         if (!String(err).includes('Execution context was destroyed')) {
-          throw err
+          throw err;
         };
       }
     }
