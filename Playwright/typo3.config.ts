@@ -38,7 +38,6 @@ const baseTypo3Config = {
       dopzone: '.dropzone',
       dropzoneMask: '.dropzone-mask',
       editInput: '.t3js-formengine-palette-field',
-      searchFileSelector: (label: string) => `button[title="${label}"]`,
       searchInputSelector: '.filelist-main input[type="search"]',
     },
     fr: {
