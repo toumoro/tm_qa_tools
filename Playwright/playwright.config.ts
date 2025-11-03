@@ -17,6 +17,8 @@ const {
 // Use prepared auth state.
 const mode = process.env.TM_PLAYWRIGHT_MODE === 'true';
 const domain = process.env.TM_PLAYWRIGHT_DOMAIN;
+const username = process.env.TM_PLAYWRIGHT_HTTP_USERNAME || 'user';
+const password = process.env.TM_PLAYWRIGHT_HTTP_PASSWORD || 'pass';
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -49,6 +51,11 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://' + domain,
+
+    httpCredentials: {
+      username: username,
+      password: password,
+    },
 
     // screenshot: 'only-on-failure',
 
