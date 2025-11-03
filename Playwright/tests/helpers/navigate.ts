@@ -239,7 +239,7 @@ export async function searchForRecord(
 
 
 /**
- * Function to search for a record in the list view
+ * Function to search for a file in the file list view
  *
  * @param frame
  * @param searchTerm
