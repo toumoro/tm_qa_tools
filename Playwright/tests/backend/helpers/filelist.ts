@@ -3,13 +3,13 @@ import fs from 'fs';
 import { config } from '../../../project.config';
 import { waitForSiteIdle } from './loading';
 import { getNotification, notify } from './error';
-import { navigateTo } from '../../helpers/navigate';
+import { navigateTo, searchForFile } from '../../helpers/navigate';
 
 const {
   playwright: { downloadFileTest },
   typo3: { files, routes },
   project: {
-    backendInterface: { lang },
+    backendInterface: { lang, files: { usingS3Bucket } },
   },
 } = config;
 /**
@@ -58,25 +58,31 @@ export async function upload({
 }
 
 export async function download({ page }: { page: Page }) {
-  const [download] = await Promise.all([
-    page.waitForEvent('download'),
-    page.getByRole('menuitem', { name: files[lang].downloadLabel }).click(),
-  ]);
 
-  // Save the download
-  const downloadPath = `${process.cwd()}${downloadFileTest.destFilePath}${
-    downloadFileTest.destFileName
-  }`;
-  if (fs.existsSync(downloadPath)) {
-    fs.unlinkSync(downloadPath);
-  }
-  try {
-    await download.saveAs(downloadPath);
-    console.log(`File downloaded to: ${downloadPath}`);
+  if(usingS3Bucket) {
+    page.getByRole('menuitem', { name: files[lang].downloadLabel }).click();
     return true;
-  } catch (error) {
-    console.error(`Failed to save file to: ${downloadPath}`, error);
-    return false;
+  } else {
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('menuitem', { name: files[lang].downloadLabel }).click(),
+    ]);
+
+    // Save the download
+    const downloadPath = `${process.cwd()}${downloadFileTest.destFilePath}${
+      downloadFileTest.destFileName
+    }`;
+    if (fs.existsSync(downloadPath)) {
+      fs.unlinkSync(downloadPath);
+    }
+    try {
+      await download.saveAs(downloadPath);
+      console.log(`File downloaded to: ${downloadPath}`);
+      return true;
+    } catch (error) {
+      console.error(`Failed to save file to: ${downloadPath}`, error);
+      return false;
+    }
   }
 }
 
@@ -126,8 +132,11 @@ export const runFileUploadTest = () => {
 
     const frame = page.frameLocator('iframe');
 
+    await searchForFile(frame, downloadFileTest.sourceFileName);
+    await waitForSiteIdle(page);
+
     await expect(
-      frame.getByText(downloadFileTest.sourceFileName),
+      frame.locator(`button[title="${downloadFileTest.sourceFileName}"]`),
       `File ${downloadFileTest.sourceFileName} already exists.`
     ).toBeHidden();
 
@@ -137,7 +146,8 @@ export const runFileUploadTest = () => {
 
     const notification = await getNotification(page, 'popup');
     await expect(
-      frame.getByText(downloadFileTest.sourceFileName),
+      frame.locator('h1')
+           .getByText(downloadFileTest.sourceFileName),
       notification.message
     ).toBeVisible();
   });
@@ -151,6 +161,9 @@ export const runFileDownloadTest = () => {
     await waitForSiteIdle(page);
 
     const frame = page.frameLocator('iframe');
+
+    await searchForFile(frame, downloadFileTest.sourceFileName);
+    await waitForSiteIdle(page);
 
     const fileButton = await assertFileExists(frame, downloadFileTest.sourceFileName);
     await fileButton.click({ button: 'right' });
@@ -170,11 +183,14 @@ export const runFileEditMetadataTest = () => {
     // Wait for iframe and dropzone
     const frame = page.frameLocator('iframe');
 
+    await searchForFile(frame, downloadFileTest.sourceFileName);
+    await waitForSiteIdle(page);
+
     const fileButton = await assertFileExists(frame, downloadFileTest.sourceFileName);
     await fileButton.click();
 
     await editMetadata({ page });
-    
+
     await notify(page, 'popup');
 
     const notification = await getNotification(page, 'popup');
@@ -193,6 +209,9 @@ export const runFileDeleteTest = () => {
     await waitForSiteIdle(page);
 
     const frame = page.frameLocator('iframe');
+
+    await searchForFile(frame, downloadFileTest.sourceFileName);
+    await waitForSiteIdle(page);
 
     const fileButton = await assertFileExists(frame, downloadFileTest.sourceFileName);
     await fileButton.click({ button: 'right' });
