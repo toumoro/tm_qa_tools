@@ -98,7 +98,9 @@ export async function navigateToContent({
   const frame = page.frameLocator('iframe[name="list_frame"]');
 
   const elementLabel =
-    typo3.contents[backendInterface.lang].elementLabel(version);
+    typo3.contents[backendInterface.lang].elementLabel(
+      version, backendInterface.contents.labels
+    );
 
   let element: Locator;
 

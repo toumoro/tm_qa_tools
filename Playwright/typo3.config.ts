@@ -86,7 +86,7 @@ const baseTypo3Config = {
     },
     fr: {
       createContentLabel: 'Créer un nouveau contenu',
-      elementLabel: (version: number) => getContentElementLabel(version, 'fr'),
+      elementLabel: (version: number, labels: { [version: number]: string; } ) => getContentElementLabel(version, labels),
       RTE: {
         headingTitle: 'Titre 2',
         headingLabel: 'En-tête',
@@ -98,7 +98,7 @@ const baseTypo3Config = {
     },
     en: {
       createContentLabel: 'Create new content',
-      elementLabel: (version: number) => getContentElementLabel(version, 'en'),
+      elementLabel: (version: number, labels: { [version: number]: string; } ) => getContentElementLabel(version, labels),
       RTE: {
         headingTitle: 'Heading 2',
         headingLabel: 'Heading',
@@ -298,6 +298,11 @@ export interface ProjectConfig {
     files: {
       usingS3Bucket: boolean;
     }
+    contents: {
+      labels: {
+        [version: number]: string;
+      }
+    };
     module: {
       label: string;
       items: Array<{ label: string; heading?: string }>;

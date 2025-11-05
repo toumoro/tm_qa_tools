@@ -1,11 +1,11 @@
-import { 
-  expect, 
-  FrameLocator, 
-  Locator, 
-  Page, 
+import {
+  expect,
+  FrameLocator,
+  Locator,
+  Page,
 } from '@playwright/test';
-import { 
-   navigateToPage 
+import {
+   navigateToPage
 } from '../../helpers/navigate';
 import { config } from '../../../project.config';
 import { getEnvVariable } from '../../helpers/getEnvVariable';
@@ -16,7 +16,7 @@ const {
     backendInterface: { lang },
   }
 } = config;
-export const oldSiteDomain = `https://${getEnvVariable('TM_PLAYWRIGHT_OLD_DOMAIN')}`;
+export const oldSiteDomain = `https://${getEnvVariable('TM_PLAYWRIGHT_REFERENCE_DOMAIN')}`;
 
 // get button in the RTE toolbar
 export const getButton = async (
@@ -80,7 +80,7 @@ export const getRTEStyles = async (
     .locator('..')
     .locator('div')
     .locator('button');
-  
+
   const styleTextList = await Promise.all(
     (await styles.all()).map(async (style) => {
       return style
@@ -100,15 +100,15 @@ const fillField = async (
   value: string
 ) => {
 
-  await frame.locator('a', { 
-    hasText: fieldLabel 
+  await frame.locator('a', {
+    hasText: fieldLabel
   }).click();
 
   const field = value;
 
   await frame.locator(`[name="${fieldName}"]`).fill(field);
   await frame.locator('[type="submit"]').click();
-  
+
   return field;
 }
 
@@ -141,14 +141,14 @@ export const createLink = async (
   switch(type) {
     case 'external':
       return await fillField(
-        linkModalFrame, 
+        linkModalFrame,
         contents[lang].RTE.externalLinkLabel,
         'lurl',
         'https://typo3.org'
       );
     case 'email':
       return 'mailto:' + await fillField(
-        linkModalFrame, 
+        linkModalFrame,
         contents[lang].RTE.emailLinkLabel,
         'lemail',
         'user@typo3.com'
