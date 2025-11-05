@@ -238,3 +238,21 @@ export async function searchForRecord(
   await searchInput.fill(searchTerm);
   await searchInput.press('Enter');
 }
+
+
+/**
+ * Function to search for a file in the file list view
+ *
+ * @param frame
+ * @param searchTerm
+ */
+export async function searchForFile(
+  frame: FrameLocator,
+  searchTerm: string,
+) {
+  const searchInput = frame.locator(
+    typo3.files.selectors.searchInputSelector,
+  );
+  await searchInput.fill(searchTerm);
+  await searchInput.press('Enter');
+}

@@ -38,6 +38,7 @@ const baseTypo3Config = {
       dopzone: '.dropzone',
       dropzoneMask: '.dropzone-mask',
       editInput: '.t3js-formengine-palette-field',
+      searchInputSelector: '.filelist-main input[type="search"]',
     },
     fr: {
       deleteLabel: 'Supprimer',
@@ -294,6 +295,9 @@ export interface ProjectConfig {
       query: string;
       expectedResult: string[];
     };
+    files: {
+      usingS3Bucket: boolean;
+    }
     contents: {
       labels: {
         [version: number]: string;
