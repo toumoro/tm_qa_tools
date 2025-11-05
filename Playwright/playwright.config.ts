@@ -18,8 +18,8 @@ const {
 // Use prepared auth state.
 const mode = getEnvVariable('TM_PLAYWRIGHT_MODE') === 'true';
 const domain = getEnvVariable('TM_PLAYWRIGHT_DOMAIN');
-const username = getEnvVariable('TM_PLAYWRIGHT_HTTP_USERNAME');
-const password = getEnvVariable('TM_PLAYWRIGHT_HTTP_PASSWORD');
+const username = getEnvVariable('TM_PLAYWRIGHT_REFERENCE_HTTP_USERNAME');
+const password = getEnvVariable('TM_PLAYWRIGHT_REFERENCE_HTTP_PASSWORD');
 
 /**
  * @see https://playwright.dev/docs/test-configuration
