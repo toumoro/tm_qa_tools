@@ -1,23 +1,9 @@
-
 // helper to get content element label based on TYPO3 version and language
 export const getContentElementLabel = (
   version: number,
-  lang: string
+  labels: { [version: number]: string; }
 ): string => {
-  const labels: Record<string, Record<number, string>> = {
-    fr: {
-      13: 'Elément de texte classique',
-      12: 'Elément de texte classique',
-      11: 'Elément de texte classique',
-    },
-    en: {
-      13: 'Regular Text Element',
-      12: 'Regular Text Element',
-      11: 'Regular Text Element',
-    },
-  };
-
-  return labels[lang][version];
+  return labels[version];
 };
 
 // helper to get content element preview selector based on TYPO3 version

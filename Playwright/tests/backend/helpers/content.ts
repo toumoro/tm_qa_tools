@@ -9,7 +9,7 @@ const {
   playwright,
   project: {
     typo3Version,
-    backendInterface: { lang },
+    backendInterface: { lang, contents },
   },
 } = config;
 
@@ -44,7 +44,7 @@ export async function createContentElement({
   await waitForSiteIdle(page);
   const wizardContent = page.locator(typo3.contents.selectors.wizardSelector);
   await wizardContent
-    .getByText(typo3.contents[lang].elementLabel(typo3Version))
+    .getByText(typo3.contents[lang].elementLabel(typo3Version, contents.labels))
     .first()
     .click();
 
