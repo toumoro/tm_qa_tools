@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
 import { config as projectConfig } from './project.config';
+import { getEnvVariable } from './tests/helpers/getEnvVariable';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -15,10 +16,10 @@ const {
 } = projectConfig;
 
 // Use prepared auth state.
-const mode = process.env.TM_PLAYWRIGHT_MODE === 'true';
-const domain = process.env.TM_PLAYWRIGHT_DOMAIN;
-const username = process.env.TM_PLAYWRIGHT_HTTP_USERNAME || 'user';
-const password = process.env.TM_PLAYWRIGHT_HTTP_PASSWORD || 'pass';
+const mode = getEnvVariable('TM_PLAYWRIGHT_MODE') === 'true';
+const domain = getEnvVariable('TM_PLAYWRIGHT_DOMAIN');
+const username = getEnvVariable('TM_PLAYWRIGHT_HTTP_USERNAME');
+const password = getEnvVariable('TM_PLAYWRIGHT_HTTP_PASSWORD');
 
 /**
  * @see https://playwright.dev/docs/test-configuration
