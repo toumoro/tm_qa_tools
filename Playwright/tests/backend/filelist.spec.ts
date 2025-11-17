@@ -6,7 +6,12 @@ import {
   runFileUploadTest,
 } from './helpers/filelist';
 
-test.describe('manage filelist module', () => {
+test.describe('manage filelist module', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   runFileUploadTest();
   runFileDownloadTest();
   runFileEditMetadataTest();

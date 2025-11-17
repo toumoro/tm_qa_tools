@@ -11,10 +11,11 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": [
-    "tests", 
-    "project.config.ts", 
+    "tests",
+    "project.config.ts",
     "typo3.config.ts"
   ]
 }

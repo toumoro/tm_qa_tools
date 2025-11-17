@@ -10,6 +10,11 @@ import {
   getElementEditSelector,
   getRTESelector,
 } from './tests/backend/helpers/lang';
+import { backendUser } from './tests/annotations/be-user';
+import { redirects } from './tests/annotations/redirects';
+import { modules } from './tests/annotations/modules';
+import { filelist } from './tests/annotations/filelist';
+import { backendInterface } from './tests/annotations/interface';
 
 // This is the base config for TYPO3. It should not be changed.
 const baseTypo3Config = {
@@ -281,6 +286,36 @@ const defaultPlaywrightConfig: PlaywrightConfig = {
   },
 };
 
+// These are the default Annotations settings. They CAN be overridden.
+const defaultAnnotations: Annotations = {
+  groups: {
+    backendUser,
+    redirects,
+    modules,
+    filelist,
+    backendInterface
+  },
+  locale: 'en',
+};
+
+// Define the structure for annotations
+export interface Annotations {
+  groups: {
+    [groupName: string]: {
+      [testName: string]: {
+        tags?: string[];
+        labels: {
+          [lang: string]: Array<{
+            type: string;
+            description: string;
+          }>;
+        }
+      }
+    }
+  };
+  locale: string;
+}
+
 //
 // --- SECTION 2: DEFINE THE TYPES ---
 //
@@ -307,7 +342,6 @@ export interface ProjectConfig {
       label: string;
       items: Array<{ label: string; heading?: string }>;
     };
-    // TODO clean the way we select one of more language to test
     lang: 'fr' | 'en';
   };
 }
@@ -316,6 +350,7 @@ export interface AppConfig {
   readonly typo3: Typo3Config;
   playwright: PlaywrightConfig;
   project: ProjectConfig;
+  annotations: Annotations;
 }
 
 //
@@ -324,11 +359,13 @@ export interface AppConfig {
 
 export function defineConfig(
   projectConfig: ProjectConfig,
+  annotationsOverrides?: DeepPartial<Annotations>,
   playwrightOverrides?: DeepPartial<PlaywrightConfig>,
 ): AppConfig {
   return Object.freeze({
     typo3: baseTypo3Config,
     playwright: merge(defaultPlaywrightConfig, playwrightOverrides ?? {}),
+    annotations: merge(defaultAnnotations, annotationsOverrides ?? {}),
     project: projectConfig,
   });
 }

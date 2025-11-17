@@ -11,6 +11,10 @@ const {
   project: {
     backendInterface: { lang, files: { usingS3Bucket } },
   },
+  annotations: {
+    groups: { filelist },
+    locale
+  },
 } = config;
 /**
  * Uploads a file to the backend TYPO3 filelist module.
@@ -60,7 +64,7 @@ export async function upload({
 export async function download({ page }: { page: Page }) {
 
   if(usingS3Bucket) {
-    page.getByRole('menuitem', { name: files[lang].downloadLabel }).click();
+    await page.getByRole('menuitem', { name: files[lang].downloadLabel }).click();
     return true;
   } else {
     const [download] = await Promise.all([
@@ -125,7 +129,12 @@ export async function assertFileExists(
 
 // run file upload test
 export const runFileUploadTest = () => {
-  test("check new file visibility after upload", async ({ page }) => {
+  test("check new file visibility after upload", {
+      tag: [...filelist.fileUpload.tags ?? []],
+      annotation: [
+        ...filelist.fileUpload.labels[locale]
+      ]
+    }, async ({ page }) => {
 
     await navigateTo({ page, route: routes.fileList });
     await waitForSiteIdle(page);
@@ -155,7 +164,12 @@ export const runFileUploadTest = () => {
 
 // run file download test
 export const runFileDownloadTest = () => {
-  test("download an existing file", async ({ page }) => {
+  test("download an existing file", {
+      tag: [...filelist.fileDownload.tags ?? []],
+      annotation: [
+        ...filelist.fileDownload.labels[locale]
+      ]
+    }, async ({ page }) => {
 
     await navigateTo({ page, route: routes.fileList });
     await waitForSiteIdle(page);
@@ -175,7 +189,12 @@ export const runFileDownloadTest = () => {
 
 // run file edit metadata test
 export const runFileEditMetadataTest = () => {
-  test("check file metadata when edited", async ({ page }) => {
+  test("check file metadata when edited", {
+      tag: [...filelist.fileEditMeatadata.tags ?? []],
+      annotation: [
+        ...filelist.fileEditMeatadata.labels[locale]
+      ]
+    }, async ({ page }) => {
 
     await navigateTo({ page, route: routes.fileList });
     await waitForSiteIdle(page);
@@ -203,7 +222,12 @@ export const runFileEditMetadataTest = () => {
 
 // run file delete test
 export const runFileDeleteTest = () => {
-  test("check file visibility when deleted", async ({ page }) => {
+  test("check file visibility when deleted", {
+      tag: [...filelist.fileDelete.tags ?? []],
+      annotation: [
+        ...filelist.fileDelete.labels[locale]
+      ]
+    }, async ({ page }) => {
 
     await navigateTo({ page, route: routes.fileList });
     await waitForSiteIdle(page);

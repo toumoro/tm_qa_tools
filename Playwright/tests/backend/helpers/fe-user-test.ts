@@ -17,6 +17,10 @@ const {
   project: {
     backendInterface: { lang },
   },
+  annotations: {
+    groups: { backendUser },
+    locale
+  }
 } = config;
 
 export const runFEUserTests = () => {
@@ -67,7 +71,12 @@ export const runFEUserTests = () => {
     await context.close();
   });
 
-  test('backend user can create a frontend group', async ({ page }) => {
+  test('backend user can create a frontend group', {
+    tag: [...backendUser.userCreateFrontendGroup.tags ?? []],
+    annotation: [
+      ...backendUser.userCreateFrontendGroup.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await navigateToRecord({
       page,
       uid: folderUid,
@@ -83,7 +92,12 @@ export const runFEUserTests = () => {
     );
   });
 
-  test('frontend group should contains sub-groups', async ({ page }) => {
+  test('frontend group should contains sub-groups', {
+    tag: [...backendUser.frontendGroupContainsSubGroups.tags ?? []],
+    annotation: [
+      ...backendUser.frontendGroupContainsSubGroups.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await navigateToRecord({
       page,
       uid: folderUid,
@@ -106,9 +120,12 @@ export const runFEUserTests = () => {
     ).toBeGreaterThan(0);
   });
 
-  test('backend user can add and remove subgroup to a frontend group', async ({
-    page,
-  }) => {
+  test('backend user can add and remove subgroup to a frontend group', {
+    tag: [...backendUser.userAddRemoveSubgroup.tags ?? []],
+    annotation: [
+      ...backendUser.userAddRemoveSubgroup.labels[locale]
+    ]
+  }, async ({ page, }) => {
     const frame = await navigateToRecord({
       page,
       uid: folderUid,
@@ -151,7 +168,12 @@ export const runFEUserTests = () => {
     await expect(selectedItemsContainer.locator('option')).toHaveCount(0);
   });
 
-  test('backend user can delete a frontend group', async ({ page }) => {
+  test('backend user can delete a frontend group', {
+    tag: [...backendUser.userDeleteFrontendGroup.tags ?? []],
+    annotation: [
+      ...backendUser.userDeleteFrontendGroup.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await deleteRecord({
       page,
       uid: folderUid,
@@ -177,7 +199,12 @@ export const runFEUserTests = () => {
       await context.close();
     });
 
-    test('backend user can create a frontend user', async ({ page }) => {
+    test('backend user can create a frontend user', {
+      tag: [...backendUser.userCreateFrontendUser.tags ?? []],
+      annotation: [
+        ...backendUser.userCreateFrontendUser.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await navigateToRecord({
         page,
         uid: folderUid,
@@ -198,7 +225,12 @@ export const runFEUserTests = () => {
       ).toHaveValue('********');
     });
 
-    test('backend user can add and remove frontend group to a frontend user', async ({
+    test('backend user can add and remove frontend group to a frontend user', {
+      tag: [...backendUser.userAddRemoveFrontendGroup.tags ?? []],
+      annotation: [
+        ...backendUser.userAddRemoveFrontendGroup.labels[locale]
+      ]
+    }, async ({
       page,
     }) => {
       const frame = await navigateToRecord({
@@ -242,7 +274,12 @@ export const runFEUserTests = () => {
       await expect(selectedItemsContainer.locator('option')).toHaveCount(1);
     });
 
-    test('backend user can delete a frontend user', async ({ page }) => {
+    test('backend user can delete a frontend user', {
+      tag: [...backendUser.userDeleteFrontendUser.tags ?? []],
+      annotation: [
+        ...backendUser.userDeleteFrontendUser.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await deleteRecord({
         page,
         uid: folderUid,

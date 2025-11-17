@@ -13,7 +13,12 @@ const {
 /**
  * @param { Page } page - La page Playwright
  */
-setup("login to the admin interface (BE)", async ({ page }) => {
+setup("login to the admin interface (BE)", {
+    tag: '@login-required',
+    annotation: [
+
+    ]
+  }, async ({ page }) => {
   await page.goto(`${routes.home}`);
   await page.getByPlaceholder(login.usernameLabel).fill(username);
   await page.getByPlaceholder(login.passwordLabel).fill(password);

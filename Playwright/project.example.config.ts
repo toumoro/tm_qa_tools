@@ -1,5 +1,5 @@
-// THIS CONFIG IS SPECIFIC TO SPECIFIC PROJECT
-export const exampleProjectConfig = {
+// project specific configuration
+export const projectConfig = {
   typo3Version: 13,
   typo3OldVersion: 12,
   backendInterface: {
@@ -7,18 +7,35 @@ export const exampleProjectConfig = {
       query: '90',
       expectedResult: ['Page 90'],
     },
+    files: {
+      usingS3Bucket: true,
+    },
+    contents: {
+      labels: {
+        13: 'Regular Text Element',
+        12: 'Text',
+      }
+    },
     module: {
-      label: 'Outils d’administration',
+      label: 'Admin Tools',
       items: [
-        { label: 'Réglages', heading: 'Settings' }
+        { label: 'Maintenance' },
+        { label: 'Settings', heading: 'Settings' },
+        { label: 'Upgrade', heading: 'Upgrade' },
+        { label: 'Environment', heading: 'Environment' },
+        {
+          label: 'Content Security Policy',
+          heading: 'Content Security Policy',
+        },
+        { label: 'Extensions', heading: 'Installed Extensions' },
       ],
     },
-    lang: 'en',
+    lang: 'en'
   },
 };
 
-// Override default Playwright config for specific project
-export const examplePlaywrightOverrides = {
+// replace plawright's defaut configuration
+export const playwrightOverrides = {
   createUsersTest: {
     userFields: [
       { id: 'username', value: 'your_username', type: 'input' },
@@ -26,3 +43,8 @@ export const examplePlaywrightOverrides = {
     ],
   },
 };
+
+// replace default annotations configuration
+export const annotationsOverrides = {
+  locale: 'fr'
+}

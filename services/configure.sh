@@ -26,4 +26,10 @@ mkdir -p "${DEST_DIR}/.githooks"
 cp ${QA_TOOLS_DIR}/.githooks/pre-commit.dist "${DEST_DIR}/.githooks/pre-commit"
 echo "Pre-commit script copied to ${DEST_DIR}/.githooks/"
 
+# Copy playwright config
+if [ ! -f "${DEST_DIR}/migration/e2e/playwright/project.config.ts" ]; then
+    cp "${QA_TOOLS_DIR}/Playwright/project.example.config.ts" "${DEST_DIR}/migration/e2e/playwright/project.config.ts"
+    echo "Playwright configuration copied to ${DEST_DIR}/migration/e2e/playwright/project.config.ts"
+fi
+
 echo "All files checked and copied if missing."

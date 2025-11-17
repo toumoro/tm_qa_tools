@@ -1,6 +1,11 @@
 import test from '@playwright/test';
 import { runFEUserTests } from './helpers/fe-user-test';
 
-test.describe('creation and management of group users and frontend users', () => {
+test.describe('creation and management of group users and frontend users', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   runFEUserTests();
 });
