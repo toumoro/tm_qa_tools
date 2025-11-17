@@ -12,10 +12,19 @@ const {
   project: {
     backendInterface: { lang },
   },
+  annotations: {
+    groups: { redirects },
+    locale
+  }
 } = config;
 const [redirectSourcePath] = createRedirectTest.fields;
 
-test.describe('manage redirections', () => {
+test.describe('manage redirections', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   test.beforeAll(async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -38,7 +47,12 @@ test.describe('manage redirections', () => {
   });
 
   // test de création d'une redirection
-  test("check new redirection visibility when created", async ({ page }) => {
+  test("check new redirection visibility when created", {
+    tag: [...redirects.createRedirect.tags ?? []],
+    annotation: [
+      ...redirects.createRedirect.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await navigateToRecord({
       page,
       uid: folderUid,
@@ -60,7 +74,12 @@ test.describe('manage redirections', () => {
   });
 
   // test de modification d'une redirection
-  test("check redirection when edited", async ({ page }) => {
+  test("check redirection when edited", {
+    tag: [...redirects.editRedirect.tags ?? []],
+    annotation: [
+      ...redirects.editRedirect.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await updateRecord({
       page,
       uid: folderUid,
@@ -82,7 +101,12 @@ test.describe('manage redirections', () => {
     );
   });
 
-  test("check redirection when deleted", async ({ page }) => {
+  test("check redirection when deleted", {
+    tag: [...redirects.deleteRedirect.tags ?? []],
+    annotation: [
+      ...redirects.deleteRedirect.labels[locale]
+    ]
+  }, async ({ page }) => {
     const frame = await deleteRecord({
       page,
       uid: folderUid,
@@ -98,7 +122,16 @@ test.describe('manage redirections', () => {
 });
 
 // test de modification d'une redirection
-test("check integrity of a created redirection", async ({ page }) => {
+test("check integrity of a created redirection", {
+    tag: [...redirects.checkIntegrity.tags ?? []],
+    annotation: [
+      {
+        type: 'category',
+        description: 'Backend',
+      },
+      ...redirects.checkIntegrity.labels[locale]
+    ]
+  }, async ({ page }) => {
   await navigateTo({ page, route: routes.list });
 
   const frame = await navigateToRecord({

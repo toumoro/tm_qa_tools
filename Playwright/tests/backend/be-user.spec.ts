@@ -12,9 +12,19 @@ import { runFEUserTests } from './helpers/fe-user-test';
 const {
   typo3: { routes, records },
   playwright: { createUsersTest, tempAuthFile, authFile },
+  annotations: {
+    groups: { backendUser },
+    locale
+  }
 } = config;
 
-test.describe('creation and management of backend users', () => {
+test.describe('creation and management of backend users', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
+
   test.beforeAll(async ({ browser }) => {
     await createUser(browser, createUsersTest.userFields, true);
   });
@@ -28,7 +38,12 @@ test.describe('creation and management of backend users', () => {
     await context.close();
   });
 
-  test('backend user can be found via search', async ({ page }) => {
+  test('backend user can be found via search', {
+    tag: [...backendUser.userFound.tags ?? []],
+    annotation: [
+      ...backendUser.userFound.labels[locale]
+    ]
+  }, async ({ page }) => {
     await page.goto(routes.userManagement);
     const [username] = createUsersTest.userFields;
     const frame = page.frameLocator(records.selectors.moduleFrameSelector);
@@ -60,7 +75,12 @@ test.describe('creation and management of backend users', () => {
       await context.close();
     });
 
-    test('User can access dashboard', async () => {
+    test('User can access dashboard', {
+      tag: [...backendUser.userDashboardAccess.tags ?? []],
+      annotation: [
+        ...backendUser.userDashboardAccess.labels[locale]
+      ]
+    }, async () => {
       await page.goto(routes.home);
       await expect(
         page.locator('.t3js-topbar-button-modulemenu'),

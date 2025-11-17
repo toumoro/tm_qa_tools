@@ -48,13 +48,21 @@ const {
     typo3Version,
     typo3OldVersion,
     backendInterface,
-    backendInterface: { lang },
+    backendInterface: { lang }
   },
+  annotations: { groups, locale }
 } = config;
 
-test('check page tree integrity when search field is filled', async ({
-  page,
-}) => {
+test('check page tree integrity when search field is filled', {
+    tag: [...groups.backendInterface.searchPage.tags ?? []],
+    annotation: [
+      {
+        type: 'category',
+        description: 'Backend',
+      },
+      ...groups.backendInterface.searchPage.labels[locale]
+    ]
+  }, async ({ page }) => {
   await navigateTo({ page, route: routes.pages });
 
   await page
@@ -71,7 +79,12 @@ test('check page tree integrity when search field is filled', async ({
 // ====================================================================
 // --- Block 1: Page Management & their Content Elements ---
 // ====================================================================
-test.describe('manage pages and their content elements', () => {
+test.describe('manage pages and their content elements', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   let pageUid = 0;
   const newPageTitle = createPageTest.newPageTitle;
 
@@ -102,12 +115,22 @@ test.describe('manage pages and their content elements', () => {
     await waitForSiteIdle(page);
   });
 
-  test('check new page visibility when created', async ({ page }) => {
+  test('check new page visibility when created', {
+    tag: [...groups.backendInterface.createPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.createPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     await navigateToPage({ page, uid: pageUid });
     await expect(page.locator(`.node[data-id="${pageUid}"]`)).toBeVisible();
   });
 
-  test('check page properties when edited', async ({ page }) => {
+  test('check page properties when edited', {
+    tag: [...groups.backendInterface.editPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.editPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     const title = await editElement({ page, uid: pageUid });
     await expect(page.getByText(title)).toBeVisible();
   });
@@ -126,7 +149,12 @@ test.describe('manage pages and their content elements', () => {
       await context.close();
     });
 
-    test('check new content element fields when created', async ({ page }) => {
+    test('check new content element fields when created', {
+      tag: [...groups.backendInterface.createContentElement.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.createContentElement.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await navigateToContent({ page, uid: pageUid });
 
       await Promise.all(
@@ -138,7 +166,12 @@ test.describe('manage pages and their content elements', () => {
       );
     });
 
-    test('check content element fields when edited', async ({ page }) => {
+    test('check content element fields when edited', {
+      tag: [...groups.backendInterface.editContentElement.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.editContentElement.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await updateContentElement({ page, uid: pageUid });
 
       await Promise.all(
@@ -150,7 +183,12 @@ test.describe('manage pages and their content elements', () => {
       );
     });
 
-    test('check content element visibility when deleted', async ({ page }) => {
+    test('check content element visibility when deleted', {
+      tag: [...groups.backendInterface.deleteContentElement.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.deleteContentElement.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await deleteContentElement({ page, uid: pageUid });
       await expect(
         frame.getByText(createContentTest.fields[0]['value']).first(),
@@ -159,7 +197,16 @@ test.describe('manage pages and their content elements', () => {
   });
 });
 
-test('check page visibility when deleted', async ({ page }) => {
+test('check page visibility when deleted', {
+  tag: [...groups.backendInterface.deletePage.tags ?? []],
+  annotation: [
+    {
+      type: 'category',
+      description: 'Backend',
+    },
+    ...groups.backendInterface.deletePage.labels[locale]
+  ]
+}, async ({ page }) => {
   const titleForDeletion = `Page a supprimer - ${Date.now()}`;
 
   console.info(`[TEST-SETUP] Creating page to be deleted.`);
@@ -179,7 +226,12 @@ test('check page visibility when deleted', async ({ page }) => {
 // --- FOR CKEditor 5 ONLY ---
 // ====================================================================
 if (typo3OldVersion >= 12) {
-  test.describe('check ckeditor buttons integrity', () => {
+  test.describe('check ckeditor buttons integrity', {
+    annotation: {
+      type: 'category',
+      description: 'Backend',
+    },
+  }, () => {
     const pageUid = parseInt(backendInterface.pageSearch.query);
 
     let frame: FrameLocator;
@@ -256,14 +308,24 @@ if (typo3OldVersion >= 12) {
       });
 
       // check buttons like tables properties, fullscreen mode, source mode, special characters, ...
-      test('check ckeditor buttons visibility', async () => {
+      test('check ckeditor buttons visibility', {
+        tag: [...groups.backendInterface.checkRTEButtons.tags ?? []],
+        annotation: [
+          ...groups.backendInterface.checkRTEButtons.labels[locale]
+        ]
+      }, async () => {
         for (const label of RTEButtonsListToCompare) {
           const button = await getButton(frame, label);
           await expect(button).toBeVisible();
         }
       });
 
-      test('check ckeditor headings visibility', async () => {
+      test('check ckeditor headings visibility', {
+        tag: [...groups.backendInterface.checkRTEHeadings.tags ?? []],
+        annotation: [
+          ...groups.backendInterface.checkRTEHeadings.labels[locale]
+        ]
+      }, async () => {
         const headingTextList = await getRTEHeadings(frame);
 
         headingTextList.forEach((heading) => {
@@ -274,7 +336,12 @@ if (typo3OldVersion >= 12) {
         });
       });
 
-      test('check ckeditor styles visibility', async ({ page }) => {
+      test('check ckeditor styles visibility', {
+        tag: [...groups.backendInterface.checkRTEStyles.tags ?? []],
+        annotation: [
+          ...groups.backendInterface.checkRTEStyles.labels[locale]
+        ]
+      }, async ({ page }) => {
         const href = await createLink(
           page,
           frame,
@@ -310,7 +377,12 @@ if (typo3OldVersion >= 12) {
         RTEfield = frame.locator(getRTESelector(typo3Version));
       });
 
-      test('check that heading style is visible when applied', async () => {
+      test('check that heading style is visible when applied', {
+        tag: [...groups.backendInterface.applyRTEHeading.tags ?? []],
+        annotation: [
+          ...groups.backendInterface.applyRTEHeading.labels[locale]
+        ]
+      }, async () => {
         // empty the RTE field
         await RTEfield.selectText();
         await RTEfield.fill('');
@@ -343,7 +415,12 @@ if (typo3OldVersion >= 12) {
       });
 
       test.describe('check links creation', () => {
-        test('check page link visibility when created', async ({ page }) => {
+        test('check page link visibility when created', {
+          tag: [...groups.backendInterface.createRTELink.tags ?? []],
+          annotation: [
+            ...groups.backendInterface.createRTELink.labels[locale]
+          ]
+        }, async ({ page }) => {
           const href = await createLink(
             page,
             frame,
@@ -361,7 +438,12 @@ if (typo3OldVersion >= 12) {
           ).toBeVisible();
         });
 
-        test('check external link visibility when created', async ({
+        test('check external link visibility when created', {
+          tag: [...groups.backendInterface.createRTELink.tags ?? []],
+          annotation: [
+            ...groups.backendInterface.createRTELink.labels[locale]
+          ]
+        }, async ({
           page,
         }) => {
           const href = await createLink(
@@ -382,7 +464,12 @@ if (typo3OldVersion >= 12) {
           ).toBeVisible();
         });
 
-        test('check email link visibility when created', async ({ page }) => {
+        test('check email link visibility when created', {
+          tag: [...groups.backendInterface.createRTELink.tags ?? []],
+          annotation: [
+            ...groups.backendInterface.createRTELink.labels[locale]
+          ]
+        }, async ({ page }) => {
           const href = await createLink(
             page,
             frame,
@@ -408,7 +495,12 @@ if (typo3OldVersion >= 12) {
         runFileUploadTest();
       });
 
-      test('check image upload', async ({ page }) => {
+      test('check image upload', {
+        tag: [...groups.backendInterface.verifyRTEImageUpload.tags ?? []],
+        annotation: [
+          ...groups.backendInterface.verifyRTEImageUpload.labels[locale]
+        ]
+      }, async ({ page }) => {
         await navigateTo({ page, route: routes.pages });
         await waitForSiteIdle(page);
 
@@ -462,7 +554,12 @@ if (typo3OldVersion >= 12) {
 // ====================================================================
 // --- Block 3: Folder Management & their Records ---
 // ====================================================================
-test.describe('manage folders and records', () => {
+test.describe('manage folders and records', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   let folderUid = 0;
   const newFolderTitle = createPageTest.newFolderTitle;
 
@@ -497,13 +594,23 @@ test.describe('manage folders and records', () => {
     await waitForSiteIdle(page);
   });
 
-  test('check folder visibility when created', async ({ page }) => {
+  test('check folder visibility when created', {
+    tag: [...groups.backendInterface.createPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.createPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     await navigateToPage({ page, uid: folderUid });
 
     await expect(page.locator(`.node[data-id="${folderUid}"]`)).toBeVisible();
   });
 
-  test('check folder properties when edited', async ({ page }) => {
+  test('check folder properties when edited', {
+    tag: [...groups.backendInterface.editPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.editPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     const title = await editElement({ page, uid: folderUid });
     await expect(page.getByText(title)).toBeVisible();
   });
@@ -531,7 +638,12 @@ test.describe('manage folders and records', () => {
       await waitForSiteIdle(page);
     });
 
-    test('check record visibility when created', async ({ page }) => {
+    test('check record visibility when created', {
+      tag: [...groups.backendInterface.createRecord.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.createRecord.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await navigateToRecord({
         page,
         uid: folderUid,
@@ -547,7 +659,12 @@ test.describe('manage folders and records', () => {
       );
     });
 
-    test('check record properties when edited', async ({ page }) => {
+    test('check record properties when edited', {
+      tag: [...groups.backendInterface.editRecord.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.editRecord.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await updateRecord({
         page,
         uid: folderUid,
@@ -564,7 +681,12 @@ test.describe('manage folders and records', () => {
       );
     });
 
-    test('check record visibility when deleted', async ({ page }) => {
+    test('check record visibility when deleted', {
+      tag: [...groups.backendInterface.deleteRecord.tags ?? []],
+      annotation: [
+        ...groups.backendInterface.deleteRecord.labels[locale]
+      ]
+    }, async ({ page }) => {
       const frame = await deleteRecord({
         page,
         uid: folderUid,
@@ -578,7 +700,12 @@ test.describe('manage folders and records', () => {
   });
 });
 
-test('check folder visibility when deleted', async ({ page }) => {
+test('check folder visibility when deleted', {
+  tag: [...groups.backendInterface.deletePage.tags ?? []],
+  annotation: [
+    ...groups.backendInterface.deletePage.labels[locale]
+  ]
+}, async ({ page }) => {
   const titleForDeletion = `Dossier a supprimer - ${Date.now()}`;
 
   console.info(`[TEST-SETUP] Creating folder to be deleted.`);
@@ -596,7 +723,12 @@ test('check folder visibility when deleted', async ({ page }) => {
 // ====================================================================
 // --- Block 4: Link Management ---
 // ====================================================================
-test.describe('manage page of type link', () => {
+test.describe('manage page of type link', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   let linkUid = 0;
   const newLinkTitle = createPageTest.newLinkTitle;
 
@@ -623,18 +755,33 @@ test.describe('manage page of type link', () => {
     await waitForSiteIdle(page);
   });
 
-  test('check link page visibility when created', async ({ page }) => {
+  test('check link page visibility when created', {
+    tag: [...groups.backendInterface.createPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.createPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     await navigateToPage({ page, uid: linkUid });
     await expect(page.locator(`.node[data-id="${linkUid}"]`)).toBeVisible();
   });
 
-  test('check link page properties when edited', async ({ page }) => {
+  test('check link page properties when edited', {
+    tag: [...groups.backendInterface.editPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.editPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     const title = await editElement({ page, uid: linkUid });
     await expect(page.getByText(title)).toBeVisible();
   });
 });
 
-test('check link page visibility when deleted', async ({ page }) => {
+test('check link page visibility when deleted', {
+  tag: [...groups.backendInterface.deletePage.tags ?? []],
+  annotation: [
+    ...groups.backendInterface.deletePage.labels[locale]
+  ]
+}, async ({ page }) => {
   const titleForDeletion = `Lien a supprimer - ${Date.now()}`;
 
   console.info(`[TEST-SETUP] Creating link to be deleted.`);
@@ -652,7 +799,12 @@ test('check link page visibility when deleted', async ({ page }) => {
 // ====================================================================
 // --- Block 5: Shortcut Management ---
 // ====================================================================
-test.describe('manage page of type shortcut', () => {
+test.describe('manage page of type shortcut', {
+  annotation: {
+    type: 'category',
+    description: 'Backend',
+  },
+}, () => {
   let shortcutUid = 0;
   const newShortcutTitle = createPageTest.newShortcutTitle;
 
@@ -683,18 +835,33 @@ test.describe('manage page of type shortcut', () => {
     await waitForSiteIdle(page);
   });
 
-  test('check shortcut page visibility when created', async ({ page }) => {
+  test('check shortcut page visibility when created', {
+    tag: [...groups.backendInterface.createPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.createPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     await navigateToPage({ page, uid: shortcutUid });
     await expect(page.locator(`.node[data-id="${shortcutUid}"]`)).toBeVisible();
   });
 
-  test('check shortcut page properties when edited', async ({ page }) => {
+  test('check shortcut page properties when edited', {
+    tag: [...groups.backendInterface.editPage.tags ?? []],
+    annotation: [
+      ...groups.backendInterface.editPage.labels[locale]
+    ]
+  }, async ({ page }) => {
     const title = await editElement({ page, uid: shortcutUid });
     await expect(page.getByText(title)).toBeVisible();
   });
 });
 
-test('check shortcut page visibility when deleted', async ({ page }) => {
+test('check shortcut page visibility when deleted', {
+  tag: [...groups.backendInterface.deletePage.tags ?? []],
+  annotation: [
+    ...groups.backendInterface.deletePage.labels[locale]
+  ]
+}, async ({ page }) => {
   const titleForDeletion = `Raccourci a supprimer - ${Date.now()}`;
 
   console.info(`[TEST-SETUP] Creating shortcut to be deleted.`);

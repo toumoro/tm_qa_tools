@@ -6,10 +6,22 @@ import { confirmWithAdminPassword } from './helpers/user-management';
 
 const {
   typo3: { routes, modules },
-  project: { backendInterface },
+  project: {
+    backendInterface,
+  },
+  annotations: { groups, locale }
 } = config;
 
-test("check visibility of the backend modules", async ({ page }) => {
+test("check visibility of the backend modules", {
+    tag: [...groups.modules.checkAccessibility.tags ?? []],
+    annotation: [
+      {
+        type: 'category',
+        description: 'Backend',
+      },
+      ...groups.modules.checkAccessibility.labels[locale]
+    ]
+  }, async ({ page }) => {
   await navigateTo({ page, route: routes.pages });
 
   const extensionModuleMenu = page
