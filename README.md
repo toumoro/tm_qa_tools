@@ -24,13 +24,6 @@ Ensuite, ajoutez ces scripts dans le fichier `composer.json` de votre projet :
 
 ```json
 "scripts": {
-    "post-autoload-dump": [
-        "@qa-tools-scripts"
-    ],
-    "post-install-cmd": [
-        "git init",
-        "git config --local core.hooksPath .githooks/"
-    ],
     "qa-tools-scripts": [
         "chmod +x vendor/toumoro/tm-qa-tools/services/configure.sh",
         "vendor/toumoro/tm-qa-tools/services/configure.sh"
@@ -44,6 +37,9 @@ Ensuite, ajoutez ces scripts dans le fichier `composer.json` de votre projet :
     "fix:php": [
         "@fix:php:rector",
         "@fix:php:cs"
+    ],
+    "ci:setup": [
+        @qa-tools-scripts,
     ],
     "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
@@ -68,6 +64,12 @@ Puis mettez à jour le fichier `.gitignore` :
 ---
 
 ## Exemple d’utilisation
+
+### Installation dans un projet
+
+```bash
+composer ci:setup
+```
 
 ### Analyser le code PHP pour détecter les problèmes de style et erreurs
 
@@ -143,13 +145,6 @@ Then add these scripts to your project's `composer.json` file:
 
 ```json
 "scripts": {
-    "post-autoload-dump": [
-        "@qa-tools-scripts"
-    ],
-    "post-install-cmd": [
-        "git init",
-        "git config --local core.hooksPath .githooks/"
-    ],
     "qa-tools-scripts": [
         "chmod +x vendor/toumoro/tm-qa-tools/services/configure.sh",
         "vendor/toumoro/tm-qa-tools/services/configure.sh"
@@ -163,6 +158,9 @@ Then add these scripts to your project's `composer.json` file:
     "fix:php": [
         "@fix:php:rector",
         "@fix:php:cs"
+    ],
+    "ci:setup": [
+        @qa-tools-scripts,
     ],
     "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
@@ -189,6 +187,12 @@ Then update `.gitignore` file:
 ---
 
 ## Example Usage
+
+# Install in a project
+
+```bash
+composer ci:setup
+```
 
 # Analyze PHP code for style issues and errors
 

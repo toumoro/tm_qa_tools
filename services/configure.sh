@@ -25,5 +25,7 @@ echo "Pipeline configuration copied to ${DEST_DIR}/.github/workflows/"
 mkdir -p "${DEST_DIR}/.githooks"
 cp ${QA_TOOLS_DIR}/.githooks/pre-commit.dist "${DEST_DIR}/.githooks/pre-commit"
 echo "Pre-commit script copied to ${DEST_DIR}/.githooks/"
+chmod +x ${DEST_DIR}/.githooks/*
+git config --local core.hooksPath ${DEST_DIR}/.githooks/
 
 echo "All files checked and copied if missing."
