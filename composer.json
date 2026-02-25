@@ -30,14 +30,15 @@
     ],
     "require": {
         "php": ">=8.1",
-        "typo3/cms-core": "^12.4.0 || ^13.4.0",
-        "typo3/coding-standards": "^0.8.0",
-        "typo3/testing-framework": "^9.2",
+        "helmich/typo3-typoscript-lint": "^3.3",
+        "j13k/yaml-lint": "^1.1.6",
         "php-parallel-lint/php-console-highlighter": "^1.0.0",
         "php-parallel-lint/php-parallel-lint": "^1.4.0",
-        "helmich/typo3-typoscript-lint": "^3.3",
+        "phpstan/phpstan": "^2",
         "sclable/xml-lint": "^0.9.0",
-        "j13k/yaml-lint": "^1.1.6"
+        "typo3/cms-core": "^12.4.0 || ^13.4.0",
+        "typo3/coding-standards": "^0.8.0",
+        "typo3/testing-framework": "^9.2"
     },
     "autoload":{
         "psr-4": {

@@ -4,7 +4,7 @@
 set -e
 
 docker_exe_web(){
-    docker-compose exec -T -u www-data -w /var/www web "$@"
+    docker-compose exec -T -u www-data -w /var/www php-fpm "$@"
 }
 
 docker_exe_web composer ci:php
