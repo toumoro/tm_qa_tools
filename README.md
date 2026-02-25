@@ -39,7 +39,7 @@ Ensuite, ajoutez ces scripts dans le fichier `composer.json` de votre projet :
         "@fix:php:cs"
     ],
     "ci:setup": [
-        @qa-tools-scripts,
+        "@qa-tools-scripts",
     ],
     "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
@@ -160,7 +160,7 @@ Then add these scripts to your project's `composer.json` file:
         "@fix:php:cs"
     ],
     "ci:setup": [
-        @qa-tools-scripts,
+        "@qa-tools-scripts",
     ],
     "ci:php:cs": "php-cs-fixer fix --config=build/php-cs-fixer/php-cs-fixer.php -v --dry-run --using-cache no --diff",
     "ci:php:lint": "parallel-lint --show-deprecated --exclude vendor ./packages",
